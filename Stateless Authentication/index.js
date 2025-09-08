@@ -14,9 +14,9 @@ app.set('views', path.resolve("./views"));
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser());
 
-connectToMongoDb('mongodb://127.0.0.1:27017/users').then(() => console.log('MongoDb Connected'));
+connectToMongoDb('mongodb://127.0.0.1:27017/users');
 
 app.use('/', staticRoute);
-app.use('/user', restrictToLoggedinUserOnly, userRoute);
+app.use('/user', userRoute);
 
-app.listen(8000, () => console.log('server started'));
+app.listen(8001, () => console.log('server started'));
