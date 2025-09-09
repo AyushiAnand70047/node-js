@@ -1,38 +1,39 @@
-const {Router} = require('express');
-const {createHmac} = require("crypto");
-const {User} = require('../models/user.model')
+const { Router } = require('express');
+const User = require('../models/user.model')
 const router = Router();
 
-router.get('/signin', (req,res) => {
+router.get('/signin', (req, res) => {
     return res.render("signin");
 })
 
-router.get('/signup', (req,res) => {
+router.get('/signup', (req, res) => {
     return res.render("signup");
 })
 
-router.post('/signup', async (req,res) => {
-    const {fullName, email, password} = req.body;
+router.post('/signup', async (req, res) => {
+    const { fullName, email, password } = req.body;
     await User.create({
         fullName,
         email,
         password
     });
-    return res.redirect('home');
+    return res.redirect('signin');
 })
 
-router.post('/signin', async (req,res) => {
-    const {email, password} = req.body;
+router.post('/signin', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const token = await User.matchPasswordAndGenerateToken(email, password);
+        return res.cookie("token", token).redirect("/");
+    } catch (error) { 
+        return res.render('signin', {
+            error: "Incorrect email or password"
+        })
+    }
+})
 
-    const user = await User.matchPassword(email, password);
-
-    console.log(user);
-
-    // if(hashedPassword == user.password){
-    //     return res.redirect('/home');
-    // }
-
-    return res.status(400).send("Invalid credentials");
+router.get('/logout', (req,res) => {
+    res.clearCookie("token").redirect('/');
 })
 
 module.exports = router;
