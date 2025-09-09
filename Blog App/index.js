@@ -20,10 +20,7 @@ app.use(checkForAuthenticationCookie("token"));
 app.use(express.static(path.resolve('./public')))
 
 app.get('/', async (req, res) => {
-    let allBlogs = [];
-    if(req.user){
-        allBlogs = await Blog.find({createdBy: req.user._id});
-    }
+    const allBlogs = await Blog.find({});
     res.render("home", { user: req.user, blogs: allBlogs });
 });
 

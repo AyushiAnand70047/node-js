@@ -11,12 +11,13 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <% if(locals.user){ %>
+          <%= console.log(locals.user) %>
           <li class="nav-item">
             <a class="nav-link" href="/blog/add-new">Add Blog</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Ayushi Anand
+              <%= userName %>
             </a>
             <ul class="dropdown-menu bg-dark">
               <li><a class="dropdown-item bg-dark text-white" href="/user/logout">Logout</a></li>

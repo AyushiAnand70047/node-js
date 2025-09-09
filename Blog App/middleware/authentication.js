@@ -14,6 +14,7 @@ function checkForAuthenticationCookie(cookieName){
         } catch(error) {
             req.user = null;
         }
+        res.locals.userName = req.cookies.userName || null;
         return next();
     }
 }
