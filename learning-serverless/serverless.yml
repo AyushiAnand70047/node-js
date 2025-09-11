@@ -1,0 +1,21 @@
+service: ayushi-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  stage: dev
+
+functions:
+  sayHelloFn:
+    handler: hello.handler
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+  sayByeFn:
+    handler: bye.handler
+    events:
+      - httpApi:
+          path: /bye
+          method: get
